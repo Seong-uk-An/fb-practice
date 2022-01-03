@@ -3,7 +3,7 @@ import AppRouter from "components/Router";
 import { authService, authStateChanged } from "../fb";
 
 function App() {
-  const currentUser = authService.currentUser;
+  // const currentUser = authService.currentUser;
   const [init, setInit] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
