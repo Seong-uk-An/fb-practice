@@ -1,10 +1,18 @@
-import { authService, createUser, signIn } from "fb";
+import {
+  authService,
+  createUser,
+  googleAuthProvider,
+  signIn,
+  popupSignIn,
+  githubAuthProvider,
+} from "fb";
 import { useState } from "react";
 
 function Auth() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [newAccount, setNewAccount] = useState(true);
+  const [newAccount, setNewAccount] = useState(false);
+  const [error, setError] = useState("");
 
   const onChange = (event) => {
     const {
@@ -29,8 +37,31 @@ function Auth() {
       }
       console.log(data);
     } catch (err) {
-      console.error(err);
+      setError(err.message);
     }
+  };
+  const toggleAccount = () => setNewAccount((prev) => !prev);
+  const onSocialClick = async (event) => {
+    const {
+      target: { name },
+    } = event;
+    let provider;
+    if (name === "google") {
+      // Sign in using a popup.
+      provider = new googleAuthProvider();
+    } else if (name === "git-hub") {
+      provider = new githubAuthProvider();
+    }
+    const result = await popupSignIn(authService, provider);
+    console.log(result);
+
+    // The signed-in user info.
+    const user = result.user;
+    console.log(user);
+    // This gives you a Google Access Token.
+    const credential = provider.credentialFromResult(authService, result);
+    const token = credential.accessToken;
+    console.log(token);
   };
 
   return (
@@ -56,9 +87,17 @@ function Auth() {
           type="submit"
           value={newAccount ? "Create new account" : "Log in"}
         />
+        {error}
       </form>
-      <button>continue with google</button>
-      <button>continue with github</button>
+      <button onClick={toggleAccount}>
+        {newAccount ? "로그인" : "계정이 없으신가요?"}
+      </button>
+      <button onClick={onSocialClick} name="google">
+        continue with google
+      </button>
+      <button onClick={onSocialClick} name="git-hub">
+        continue with github
+      </button>
     </div>
   );
 }

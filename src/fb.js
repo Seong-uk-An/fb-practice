@@ -4,6 +4,10 @@ import {
   getAuth,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  GoogleAuthProvider,
+  signInWithPopup,
+  GithubAuthProvider,
 } from "firebase/auth";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -25,5 +29,17 @@ initializeApp(firebaseConfig);
 const authService = getAuth();
 const createUser = createUserWithEmailAndPassword;
 const signIn = signInWithEmailAndPassword;
+const authStateChanged = onAuthStateChanged;
+const googleAuthProvider = GoogleAuthProvider;
+const githubAuthProvider = GithubAuthProvider;
+const popupSignIn = signInWithPopup;
 
-export { authService, createUser, signIn };
+export {
+  authService,
+  createUser,
+  signIn,
+  authStateChanged,
+  googleAuthProvider,
+  githubAuthProvider,
+  popupSignIn,
+};
