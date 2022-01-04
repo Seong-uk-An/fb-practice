@@ -47,7 +47,6 @@ function Auth() {
     } = event;
     let provider;
     if (name === "google") {
-      // Sign in using a popup.
       provider = new googleAuthProvider();
     } else if (name === "git-hub") {
       provider = new githubAuthProvider();
